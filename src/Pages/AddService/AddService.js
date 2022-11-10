@@ -6,14 +6,14 @@ const AddService = () => {
 
     const { user } = useContext(AuthContext);
 
-    // const handleAddService = event => {
-    //     event.preventDefault();
-    //     const form = event.target;
-    //     const name = form.service_name.value;
-    //     const description = form.service_description.value;
-    //     const image = form.service_image.value;
-    //     const price = form.service_price.value;
-    //     const rating = form.service_rating.value;
+    const handleAddService = event => {
+        event.preventDefault();
+        const form = event.target;
+        const name = form.service_name.value;
+        const description = form.service_description.value;
+        const image = form.service_image.value;
+        const price = form.service_price.value;
+        const rating = form.service_rating.value;
 
         const service = {
             name,
