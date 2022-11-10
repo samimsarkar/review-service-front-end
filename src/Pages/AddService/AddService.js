@@ -28,21 +28,21 @@ const AddService = () => {
             author_email: user.email
         }
 
-        fetch('http://localhost:5000/add-service', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(service)
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.acknowledged) {
-                    toast.success('Service Added Successfully!');
-                    form.reset();
-                }
-            })
-    }
+    //     fetch('http://localhost:5000/add-service', {
+    //         method: 'POST',
+    //         headers: {
+    //             'content-type': 'application/json'
+    //         },
+    //         body: JSON.stringify(service)
+    //     })
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             if (data.acknowledged) {
+    //                 toast.success('Service Added Successfully!');
+    //                 form.reset();
+    //             }
+    //         })
+    // }
 
     return (
         <div className='max-w-5xl px-10 mx-auto my-14'>
