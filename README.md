@@ -4,10 +4,10 @@
 <br>
 <h1><u>Working Experience Was Outstanding</u></h1>
 <ul>
-    <li>This kind of project creating for the first time a application using a database in NodeJs</li>
+    <!-- <li>This kind of project creating for the first time a application using a database in NodeJs</li>
     <li>I have used all knowledge i gained while making this kind of project.</li>
     <li>For the first time i have used JWT Tokens in a project</li>
-    <li>While creating this project i faced a lot of problems but Alhamdulillah finished it</li>
+    <li>While creating this project i faced a lot of problems but Alhamdulillah finished it</li> -->
 </ul>
 
 <br>
