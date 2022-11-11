@@ -4,8 +4,11 @@ import { AuthContext } from '../../contexts/AuthProvider';
 import { Toaster, toast } from 'react-hot-toast';
 import ServiceReviews from './ServiceReviews/ServiceReviews';
 import { FaStar, FaUserAlt } from "react-icons/fa";
+import useTitle from '../../Hooks/useTitle';
 
 const ServiceDetails = () => {
+
+    useTitle('Service Details')
 
     const [loading, setLoading] = useState(true);
     const [service, setService] = useState({});
@@ -15,7 +18,7 @@ const ServiceDetails = () => {
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/services/${id}`)
+        fetch(`https://travel-agency-neon.vercel.app/services/${id}`)
             .then(res => res.json())
             .then(service => {
                 setService(service);
@@ -23,7 +26,7 @@ const ServiceDetails = () => {
     }, [id])
 
     useEffect(() => {
-        fetch(`http://localhost:5000/reviews/${id}`)
+        fetch(`https://travel-agency-neon.vercel.app/reviews/${id}`)
             .then(res => res.json())
             .then(review => {
                 setReviews(review);
@@ -47,7 +50,7 @@ const ServiceDetails = () => {
             timestamp: new Date().getTime()
         }
         if (feedback.length > 0) {
-            fetch('http://localhost:5000/add-review', {
+            fetch('https://travel-agency-neon.vercel.app/add-review', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
@@ -71,7 +74,7 @@ const ServiceDetails = () => {
     }
 
     if (loading) {
-        return <div className='min-h-screen relative bg-yellow-400'>
+        return <div className='min-h-screen relative bg-white'>
             <div className="absolute right-1/2 bottom-1/2  transform translate-x-1/2 translate-y-1/2">
                 <div className="border-t-transparent border-solid animate-spin  rounded-full border-blue-400 border-8 h-64 w-64"></div>
             </div>

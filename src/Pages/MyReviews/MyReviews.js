@@ -2,16 +2,19 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthProvider';
 import ReviewCard from './ReviewCard/ReviewCard';
 import { toast, Toaster } from 'react-hot-toast';
+import useTitle from '../../Hooks/useTitle';
 
 const MyReviews = () => {
 
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    useTitle('My Reviews')
+
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/myreviews/${user.uid}?email=${user.email}`, {
+        fetch(`https://travel-agency-neon.vercel.app/myreviews/${user.uid}?email=${user.email}`, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem('lawFarm-token')}`
             }
@@ -27,7 +30,7 @@ const MyReviews = () => {
     const handleDelete = review => {
         const agree = window.confirm(`Are you sure about deleting the review!`);
         if (agree) {
-            fetch(`http://localhost:5000/delete-review/${review._id}`, {
+            fetch(`https://travel-agency-neon.vercel.app/delete-review/${review._id}`, {
                 method: 'DELETE'
             })
                 .then(res => res.json())
@@ -42,7 +45,7 @@ const MyReviews = () => {
     }
 
     if (loading) {
-        return <div className='min-h-screen relative bg-yellow-400'>
+        return <div className='min-h-screen relative bg-white'>
             <div className="absolute right-1/2 bottom-1/2  transform translate-x-1/2 translate-y-1/2">
                 <div className="border-t-transparent border-solid animate-spin  rounded-full border-blue-400 border-8 h-64 w-64"></div>
             </div>

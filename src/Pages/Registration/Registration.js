@@ -4,12 +4,76 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
 import { FaGooglePlus, FaGithub } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import { GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
+import useTitle from '../../Hooks/useTitle';
 
 const Registration = () => {
 
-    const { createUser, profileUpdate } = useContext(AuthContext);
+    useTitle('Registration')
+
+    const { createUser, profileUpdate, providerLogin } = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
+
+    const googleProvider = new GoogleAuthProvider();
+    const githubProvider = new GithubAuthProvider();
+
+    const from = location?.state?.from?.pathname || '/';
+
+    const handleGoogleLogin = () => {
+        providerLogin(googleProvider)
+            .then(result => {
+
+                toast.success('Successfully Logged In!');
+                const user = result.user;
+
+                const currentUser = {
+                    email: user.email
+                }
+
+                fetch('https://travel-agency-neon.vercel.app/jwt', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(currentUser)
+                }).then(res => res.json())
+                    .then(data => {
+                        localStorage.setItem('lawFarm-token', data.token);
+                    })
+
+                navigate(from)
+            })
+            .catch(error => {
+                return toast.error(error.message)
+            })
+    }
+
+    const handleGithubLogin = () => {
+        providerLogin(githubProvider)
+            .then(result => {
+                toast.success('Successfully Logged In!');
+                const user = result.user;
+
+                const currentUser = {
+                    email: user.email
+                }
+
+                fetch('https://travel-agency-neon.vercel.app/jwt', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(currentUser)
+                }).then(res => res.json())
+                    .then(data => {
+                        localStorage.setItem('lawFarm-token', data.token);
+                    })
+
+                navigate(from)
+            })
+            .catch(error => toast.error(error.message))
+    }
 
     const handleRegister = event => {
         event.preventDefault();
@@ -24,9 +88,26 @@ const Registration = () => {
 
         createUser(email, password)
             .then(result => {
+                const user = result.user;
+                const currentUser = {
+                    email: user.email
+                }
+
+                fetch('https://travel-agency-neon.vercel.app/jwt', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(currentUser)
+                }).then(res => res.json())
+                    .then(data => {
+                        localStorage.setItem('lawFarm-token', data.token);
+                    })
+
                 profileUpdate(name, photoURL)
                     .then(res => {
                         toast.success("User Created Successfully!");
+
                         form.reset();
                         navigate(from)
                     })
@@ -70,11 +151,11 @@ const Registration = () => {
                 </div>
                 <div className="h-[100%] w-full md:w-2/3 items-center flex justify-center">
                     <div className="text-stone-700 text-base font-semibold text-center my-10 space-y-2 m-2 cursor-pointer">
-                        <div className="flex justify-between items-center border-2 border-stone-700 px-6 py-2">
+                        <div onClick={handleGoogleLogin} className="flex justify-between items-center border-2 border-stone-700 px-6 py-2">
                             <FaGooglePlus className='text-2xl mr-1'></FaGooglePlus>
                             <div className="m-1 text-lg">Continue with Google</div>
                         </div>
-                        <div className="flex justify-between items-center border-2 border-stone-700 px-6 py-2">
+                        <div onClick={handleGithubLogin} className="flex justify-between items-center border-2 border-stone-700 px-6 py-2">
                             <FaGithub className='text-2xl mr-1'></FaGithub>
                             <div className="m-1 text-lg">Continue with Github</div>
                         </div>

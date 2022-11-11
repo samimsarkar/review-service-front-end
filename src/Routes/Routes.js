@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     {
         path: '/', element: <Main></Main>, children: [
             {
-                path: '/', element: <Home></Home>, loader: () => fetch('http://localhost:5000/services?limit=3&sort=desc')
+                path: '/', element: <Home></Home>, loader: () => fetch('https://travel-agency-neon.vercel.app/services?limit=3&sort=desc')
             },
             {
                 path: '/login', element: <Login></Login>

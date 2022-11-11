@@ -11,7 +11,7 @@ const UpdateReview = () => {
     const { serviceName, displayName, photoURL } = review;
 
     useEffect(() => {
-        fetch(`http://localhost:5000/get-review/${id}`)
+        fetch(`https://travel-agency-neon.vercel.app/get-review/${id}`)
             .then(res => res.json())
             .then(data => {
                 setReview(data);
@@ -27,8 +27,7 @@ const UpdateReview = () => {
 
     const handleSubmit = event => {
         event.preventDefault();
-        const form = event.target;
-        fetch(`http://localhost:5000/reviews/${review._id}`, {
+        fetch(`https://travel-agency-neon.vercel.app/reviews/${review._id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'
@@ -44,7 +43,7 @@ const UpdateReview = () => {
     }
 
     if (loading) {
-        return <div className='min-h-screen relative bg-yellow-400'>
+        return <div className='min-h-screen relative bg-white'>
             <div className="absolute right-1/2 bottom-1/2  transform translate-x-1/2 translate-y-1/2">
                 <div className="border-t-transparent border-solid animate-spin  rounded-full border-blue-400 border-8 h-64 w-64"></div>
             </div>

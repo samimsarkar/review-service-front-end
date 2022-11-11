@@ -4,8 +4,10 @@ import { FaGooglePlus, FaGithub } from "react-icons/fa";
 import { AuthContext } from '../../contexts/AuthProvider';
 import { GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { Toaster, toast } from 'react-hot-toast';
+import useTitle from '../../Hooks/useTitle';
 
 const Login = () => {
+    useTitle('Login')
     const googleProvider = new GoogleAuthProvider();
     const githubProvider = new GithubAuthProvider();
     const { providerLogin, signIn } = useContext(AuthContext);
@@ -18,7 +20,25 @@ const Login = () => {
     const handleGoogleLogin = () => {
         providerLogin(googleProvider)
             .then(result => {
+
                 toast.success('Successfully Logged In!');
+                const user = result.user;
+
+                const currentUser = {
+                    email: user.email
+                }
+
+                fetch('https://travel-agency-neon.vercel.app/jwt', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(currentUser)
+                }).then(res => res.json())
+                    .then(data => {
+                        localStorage.setItem('lawFarm-token', data.token);
+                    })
+
                 navigate(from)
             })
             .catch(error => {
@@ -30,6 +50,23 @@ const Login = () => {
         providerLogin(githubProvider)
             .then(result => {
                 toast.success('Successfully Logged In!');
+                const user = result.user;
+
+                const currentUser = {
+                    email: user.email
+                }
+
+                fetch('https://travel-agency-neon.vercel.app/jwt', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(currentUser)
+                }).then(res => res.json())
+                    .then(data => {
+                        localStorage.setItem('lawFarm-token', data.token);
+                    })
+
                 navigate(from)
             })
             .catch(error => toast.error(error.message))
@@ -50,7 +87,7 @@ const Login = () => {
                     email: user.email
                 }
 
-                fetch('http://localhost:5000/jwt', {
+                fetch('https://travel-agency-neon.vercel.app/jwt', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'
